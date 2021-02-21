@@ -64,6 +64,9 @@ const loginController = async (req, res) => {
     } else {
       const auth = await bcrypt.compare(password, user.password)
       if (auth) {
+        const token = createToken(user._id) //generate the json web token
+        //setting the cookie
+        res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 })
         res.json({ user: user._id, message: 'Login successful' })
       } else {
         res.json({ message: 'Email or password does is incorrect' })
