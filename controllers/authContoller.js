@@ -1,4 +1,6 @@
 const User = require('../models/User')
+const jwt = require('jsonwebtoken')
+const { createToken, maxAge } = require('../utils/token')
 
 //function to handle errors
 const handleErrors = err => {
@@ -40,7 +42,11 @@ const signupController = async (req, res) => {
       password: password,
     })
     let newUser = await user.save()
-    res.status(201).json(newUser)
+    const token = createToken(user._id) //generate the json web token
+    //setting the cookie
+    res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 })
+
+    res.status(201).json({ user: user._id })
   } catch (err) {
     const errors = handleErrors(err)
 
