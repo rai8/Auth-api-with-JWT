@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser')
 const PORT = process.env.PORT || 5500
 const mongoose = require('mongoose')
 const authRouter = require('./routes/authRoute')
+const { checkUser } = require('./utils/auhtMiddleware')
 
 //connecting to the mongoose databasa
 mongoose
@@ -25,6 +26,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 app.use('/auth', authRouter)
 //root route
+app.get('*', checkUser) //apply this to all routes
 app.get('/', (req, res) => {
   res.send('Welcome to Auth api')
 })
