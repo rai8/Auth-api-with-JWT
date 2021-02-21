@@ -34,6 +34,11 @@ const loginPage = (req, res) => {
   res.json({ message: 'Welcome to the login page' })
 }
 
+//show the dashboard page
+const dashboardPage = (req, res) => {
+  res.json({ message: 'Welcome to the dashboard page' })
+}
+
 //handle user signup
 const signupController = async (req, res) => {
   const { email, password } = req.body
@@ -78,4 +83,4 @@ const loginController = async (req, res) => {
   }
 }
 
-module.exports = { signupPage, loginPage, signupController, loginController }
+module.exports = { signupPage, loginPage, signupController, loginController, dashboardPage }
