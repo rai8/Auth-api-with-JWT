@@ -83,4 +83,11 @@ const loginController = async (req, res) => {
   }
 }
 
-module.exports = { signupPage, loginPage, signupController, loginController, dashboardPage }
+//handle user logout
+const logoutController = (req, res) => {
+  //set the jtw token name to an empty value and an expiration of one millisecond
+  res.cookie('jwt', '', { maxAge: 1 })
+  res.redirect('/auth/login')
+}
+
+module.exports = { signupPage, loginPage, signupController, loginController, dashboardPage, logoutController }

@@ -5,6 +5,7 @@ const {
   loginController,
   signupController,
   dashboardPage,
+  logoutController,
 } = require('../controllers/authContoller')
 const { requireAuth } = require('../utils/auhtMiddleware')
 const router = express.Router()
@@ -14,5 +15,6 @@ router.post('/signup', signupController)
 router.get('/login', loginPage)
 router.post('/login', loginController)
 router.get('/dashboard', requireAuth, dashboardPage) //protected route
+router.get('/logout', logoutController)
 
 module.exports = router
