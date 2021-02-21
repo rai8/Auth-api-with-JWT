@@ -1,5 +1,6 @@
 const User = require('../models/User')
 const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt')
 const { createToken, maxAge } = require('../utils/token')
 
 //function to handle errors
@@ -54,8 +55,24 @@ const signupController = async (req, res) => {
   }
 }
 //handle user login
-const loginController = (req, res) => {
-  res.json({ message: 'Login successful' })
+const loginController = async (req, res) => {
+  const { email, password } = req.body
+  try {
+    const user = await User.findOne({ email })
+    if (!user) {
+      res.json({ message: 'Email or password is incorrect' })
+    } else {
+      const auth = await bcrypt.compare(password, user.password)
+      if (auth) {
+        res.json({ user: user._id, message: 'Login successful' })
+      } else {
+        res.json({ message: 'Email or password does is incorrect' })
+      }
+    }
+  } catch (err) {
+    console.log(err)
+    res.status(404)
+  }
 }
 
 module.exports = { signupPage, loginPage, signupController, loginController }
